@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResorgApi", "ResorgApi.csproj", "{6A043A28-3B95-41F1-8BA2-B903A598D69D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A043A28-3B95-41F1-8BA2-B903A598D69D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A043A28-3B95-41F1-8BA2-B903A598D69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A043A28-3B95-41F1-8BA2-B903A598D69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A043A28-3B95-41F1-8BA2-B903A598D69D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CDBEC46-0EAA-4DB4-B3B8-C4A555B09F13}
+	EndGlobalSection
+EndGlobal
