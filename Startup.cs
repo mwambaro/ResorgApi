@@ -9,6 +9,9 @@ using ResorgApi.Helpers;
 using ResorgApi.Middleware;
 using ResorgApi.Services;
 
+// DevOps Credentials:
+// Username: onkezabahizi
+// password: yht7xafgry3gcgfq3dkpuvu4vjzb7esvnrwfjnpv32mc2ssvsp4a
 namespace ResorgApi
 {
     public class Startup
