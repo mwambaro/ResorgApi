@@ -35,3 +35,7 @@ C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\fi\Npgsql
 C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\fr\Npgsql.resources.dll
 C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\ja\Npgsql.resources.dll
 C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\zh-CN\Npgsql.resources.dll
+C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libsqlite3.so
+C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libsqlite3.dylib
+C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\runtimes\win7-x64\native\sqlite3.dll
+C:\Users\onkez\Downloads\Development\ResorgApi\bin\Debug\netcoreapp3.1\runtimes\win7-x86\native\sqlite3.dll
