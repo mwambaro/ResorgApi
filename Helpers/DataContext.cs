@@ -30,3 +30,4 @@ namespace ResorgApi.Helpers
             options.UseSqlite(Configuration.GetConnectionString("ResorgApiDatabase"));
         }
     }
+}
