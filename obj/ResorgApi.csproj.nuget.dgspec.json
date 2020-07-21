@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {}
+    "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {
+    "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
+        "projectUniqueName": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
         "projectName": "ResorgApi",
-        "projectPath": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
+        "projectPath": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
         "packagesPath": "C:\\Users\\onkez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\obj\\",
+        "outputPath": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -87,10 +87,6 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.7.1, )"
-            },
-            "sqlite": {
-              "target": "Package",
-              "version": "[3.13.0, )"
             }
           },
           "imports": [
