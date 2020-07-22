@@ -35,8 +35,5 @@ steps:
     
 - task: DotNetCoreCLI@2
   inputs:
-    command: run
-  restoreDirectory:
-  verbosityRestore: 'Detailed'
-  versioningScheme: 'byBuildNumber'
+    command: 'run'
     
