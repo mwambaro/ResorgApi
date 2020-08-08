@@ -19,7 +19,7 @@ namespace ResorgApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                        .UseUrls("http://localhost:44000");
+                        .UseUrls("http://localhost:4000");
                 });
     }
 }

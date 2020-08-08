@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {}
+    "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {}
   },
   "projects": {
-    "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {
+    "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
+        "projectUniqueName": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
         "projectName": "ResorgApi",
-        "projectPath": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
+        "projectPath": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\ResorgApi.csproj",
         "packagesPath": "C:\\Users\\onkez\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\obj\\",
+        "outputPath": "C:\\Users\\onkez\\Downloads\\Development\\ResorgApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\onkez\\Downloads\\Packages\\NuGet": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -87,6 +88,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.7.1, )"
+            },
+            "WebEssentials.AspNetCore.PWA": {
+              "target": "Package",
+              "version": "[1.0.65, )"
             }
           },
           "imports": [
@@ -107,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
