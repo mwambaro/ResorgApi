@@ -43,6 +43,7 @@ obj
 
 # vscode
 .vscode
+.vs
 
 # Generated SQLite db
 ResorgApiDatabase.db
