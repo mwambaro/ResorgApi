@@ -1,0 +1,7 @@
+{
+  "certificateSettings": {
+    "comment": "Password value is converted to secure string using Powershell cmdlet [ConvertTo-SecureString]. It must be rerendered using any logic similar to [ConvertFrom-SecureString] cmdlet.",
+    "fileName": "localhost.pfx",
+    "password": "01000000d08c9ddf0115d1118c7a00c04fc297eb01000000cb3c3e24ad980c4980de847a76e6689f000000000200000000001066000000010000200000008b9a1bc6fdf05cb5fe19b7d04c274c291465e0c6ceb2afd826b1fd1e915c4805000000000e8000000002000020000000206f41783465b8d79a1ae380023058d7bf3bce5f2674e79e865bbb027853fc6d200000002630d5cb11c15da06f55b8cadf0ea06921f6d79d7f088c9ee765d13fc6b5fa9340000000c5a656f45e0de0aacac0bdd26d62b926c5e563c459fd19c81ae4caea759da12e45de52f68c9a3c2d8120cb2bcdf84033425da8096801b8fd46962629576a0ab5"
+  }
+}
