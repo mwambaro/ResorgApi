@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 using System;
 using System.IO;
 using System.Net;
+using System.Collections.Generic;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 // DevOps Credentials:
 // Username: onkezabahizi
@@ -19,12 +22,77 @@ namespace ResorgApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost CreateHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                    .UseStartup<Startup>()
+                    .UseKestrel(options => options.ConfigureEndpoints());
+                    //.UseUrls("http://localhost:4000");
+
+                });
+
+    }
+
+    public static class KestrelServerOptionsExtensions
+    {
+        public static void ConfigureEndpoints(this KestrelServerOptions options)
         {
-            IWebHost host = default;
+            var configuration = (IConfiguration)options.ApplicationServices.GetService(typeof(IConfiguration));
+            var environment = (IHostEnvironment)options.ApplicationServices.GetService(typeof(IHostEnvironment));
+
+            var endpoints = configuration.GetSection("HttpServer:Endpoints")
+                .GetChildren()
+                .ToDictionary(section => section.Key, section =>
+                {
+                    var endpoint = new EndpointConfiguration();
+                    section.Bind(endpoint);
+                    return endpoint;
+                });
+
+            foreach (var endpoint in endpoints)
+            {
+                var config = endpoint.Value;
+                var port = config.Port ?? (config.Scheme == "https" ? 443 : 80);
+
+                var ipAddresses = new List<IPAddress>();
+                if (config.Host == "localhost")
+                {
+                    ipAddresses.Add(IPAddress.IPv6Loopback);
+                    ipAddresses.Add(IPAddress.Loopback);
+                }
+                else if (IPAddress.TryParse(config.Host, out var address))
+                {
+                    ipAddresses.Add(address);
+                }
+                else
+                {
+                    ipAddresses.Add(IPAddress.IPv6Any);
+                }
+
+                foreach (var address in ipAddresses)
+                {
+                    options.Listen(address, port,
+                        listenOptions =>
+                        {
+                            if (config.Scheme == "https")
+                            {
+                                var certificate = LoadCertificate();
+                                listenOptions.UseHttps(certificate);
+                            }
+                        });
+                }
+            }
+        }
+
+        public static X509Certificate2 LoadCertificate()
+        {
+            X509Certificate2 cert = default;
+            
             try
             {
                 var config = new ConfigurationBuilder()
@@ -34,54 +102,61 @@ namespace ResorgApi
                     .AddJsonFile($"certificate.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
                     .Build();
 
-                    var certificateSettings = config.GetSection("certificateSettings");
-                    string certificateFileName = certificateSettings.GetValue<string>("filename");
-                    string certificatePassword = new SecureString..(certificateSettings.GetValue<string>("password"));
+                var certificateSettings = config.GetSection("certificateSettings");
+                string certificateFileName = certificateSettings.GetValue<string>("filename");
+                string certificatePassword = DecodeSecureString(certificateSettings.GetValue<string>("password"));
 
-                    var certificate = new X509Certificate2(certificateFileName, certificatePassword);
+                var certificate = new X509Certificate2(certificateFileName, certificatePassword);
 
-                host = new WebHostBuilder()
-                    .UseKestrel(
-                        options =>
-                        {
-                            options.AddServerHeader = false;
-                            options.Listen(IPAddress.Loopback, 44321, listenOptions =>
-                            {
-                                listenOptions.UseHttps(certificate);
-                            });
-                        }
-                    )
-                    .UseConfiguration(config)
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseStartup<Startup>()
-                    .UseUrls("https://localhost:44321")
-                    .Build();
+                cert = certificate;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
 
-            return host;
+            return cert;
         }
 
-
-
-        private string ConvertFromSecureString(SecureString sstring)
+        /// <summary>
+        /// Decodes a secure string
+        /// </summary>
+        /// <param name="s">A SecureString or a Stringified SecureString object.</param>
+        /// <returns>a decoded form of the secure string</returns>
+        public static string DecodeSecureString(dynamic s)
         {
             string usstring = null;
 
             try
             {
-                var bstr = Marshal.SecureStringToBSTR(sstring);
-                usstring = Marshal.PtrToStringBSTR(bstr);
+                IntPtr bstr = default;
+                if (s is SecureString)
+                    bstr = Marshal.SecureStringToBSTR(s);
+                else if (s is string)
+                    bstr = Marshal.StringToBSTR(s);
+
+                if (default != bstr)
+                {
+                    usstring = Marshal.PtrToStringBSTR(bstr);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
 
             return usstring;
         }
+    }
+
+    public class EndpointConfiguration
+    {
+        public string Host { get; set; }
+        public int? Port { get; set; }
+        public string Scheme { get; set; }
+        public string StoreName { get; set; }
+        public string StoreLocation { get; set; }
+        public string FilePath { get; set; }
+        public string Password { get; set; }
     }
 }
