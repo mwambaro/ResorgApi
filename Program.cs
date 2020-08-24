@@ -32,8 +32,6 @@ namespace ResorgApi
                     webBuilder
                     .UseStartup<Startup>()
                     .UseKestrel(options => options.ConfigureEndpoints());
-                    //.UseUrls("http://localhost:4000");
-
                 });
 
     }
@@ -81,7 +79,7 @@ namespace ResorgApi
                         {
                             if (config.Scheme == "https")
                             {
-                                var certificate = LoadCertificate();
+                                var certificate = LoadCertificate(environment, config);
                                 listenOptions.UseHttps(certificate);
                             }
                         });
@@ -89,26 +87,54 @@ namespace ResorgApi
             }
         }
 
-        public static X509Certificate2 LoadCertificate()
+        public static X509Certificate2 LoadCertificate(IHostEnvironment env=default, EndpointConfiguration cconfig =default)
         {
             X509Certificate2 cert = default;
             
             try
             {
-                var config = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddEnvironmentVariables()
-                    .AddJsonFile("certificate.json", optional: true, reloadOnChange: true)
-                    .AddJsonFile($"certificate.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
-                    .Build();
+                bool isDev = true == env?.IsDevelopment();
+                if (default == cconfig && isDev)
+                {
+                    var config = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddEnvironmentVariables()
+                        .AddJsonFile("certificate.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"certificate.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+                        .Build();
 
-                var certificateSettings = config.GetSection("certificateSettings");
-                string certificateFileName = certificateSettings.GetValue<string>("filename");
-                string certificatePassword = DecodeSecureString(certificateSettings.GetValue<string>("password"));
+                    var certificateSettings = config.GetSection("certificateSettings");
+                    string certificateFileName = certificateSettings.GetValue<string>("fileName");
+                    string password = certificateSettings.GetValue<string>("password");
+                    string certificatePassword = DecodeSecureString(password);
 
-                var certificate = new X509Certificate2(certificateFileName, certificatePassword);
+                    System.Diagnostics.Debug.WriteLine($"Certificate: {certificateFileName}; Password: {certificatePassword}");
 
-                cert = certificate;
+                    var certificate = new X509Certificate2(certificateFileName, certificatePassword);
+
+                    cert = certificate;
+                }
+                else
+                {
+                    if (cconfig?.StoreName != null && cconfig?.StoreLocation != null)
+                    {
+                        using (var store = new X509Store(cconfig.StoreName, Enum.Parse<StoreLocation>(cconfig.StoreLocation)))
+                        {
+                            
+                            store.Open(OpenFlags.ReadOnly);
+                            var certificate = store.Certificates.Find(
+                                X509FindType.FindBySubjectName,
+                                cconfig.Host,
+                                validOnly: true
+                            );
+
+                            if (certificate.Count > 0)
+                            {
+                                cert = certificate[0];
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
