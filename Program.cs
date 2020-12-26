@@ -25,6 +25,11 @@ namespace ResorgApi
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// Create Kestrel server
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
